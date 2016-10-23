@@ -2,7 +2,7 @@
 
 // grab the things we need
 var mongoose = require('mongoose');
-var url-valid = require('valid-uri');
+var url_valid = require('valid-url');
 var Schema = mongoose.Schema;
 
 //schema for the url
@@ -23,10 +23,13 @@ var urlSchema = new Schema({
 //sanity check for the urls
 urlSchema.pre("save", function(next) {
   //if no image is provided then use the defaults
-  if () {
-    
+  if (url_valid.isWebUri(this.original)) {
+    next();
+  } else {
+    var err = new Error("URL not valid.");
+    err.status = 500;
+    next(err);
   }
-  next();
 });
 
 // the schema is useless so far

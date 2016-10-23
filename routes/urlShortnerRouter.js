@@ -16,7 +16,7 @@ urlShortnerRouter.route('/')
     
 urlShortnerRouter.route('/:url')
     .get(function(req, res, next) {
-        urlModel.create(req.body, function(err, url_shortened) {
+        urlModel.create({original: req.params.url}, function(err, url_shortened) {
           if (err) { next(err); }
           else {
             console.log('URL created!');
