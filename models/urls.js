@@ -26,7 +26,8 @@ var urlSchema = new Schema({
       required: true
     },
     short_url: {
-      type: String
+      type: String,
+      unique: true
     }
 }, {
     timestamps: true
@@ -35,7 +36,7 @@ var urlSchema = new Schema({
 //sanity check for the urls
 urlSchema.pre("save", function(next) {
   var doc = this;
-  //if no image is provided then use the defaults
+  //create short_url given original url is valid
   if (url_valid.isWebUri(doc.original_url)) {
     counter.findByIdAndUpdate(
       { _id: 'entityId' },
