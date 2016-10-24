@@ -15,16 +15,18 @@ urlShortnerRouter.get('/', function(req, res, next) {
     
 urlShortnerRouter.get('/:url', function(req, res, next) {
   //replace %2f -> /
-    urlModel.create({original: req.params.url.replace(/%2F/g, "/")}, function(err, url_shortened) {
-      if (err) { next(err); }
-      else {
-        console.log('URL created!');
-        res.status(200)
-          .json({
-            original: url_shortened.original,
-            short_url: url_shortened.short_url
-          });
-      }
+    urlModel.create(
+      { original_url: req.params.url.replace(/%2F/g, "/") }, 
+      function(err, url_shortened) {
+        if (err) { next(err); }
+        else {
+          console.log('URL created!');
+          res.status(200)
+            .json({
+              original_url: url_shortened.original_url,
+              short_url: url_shortened.short_url
+            });
+        }
     });
 });
     

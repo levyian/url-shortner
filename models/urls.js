@@ -21,7 +21,7 @@ var counter = mongoose.model('counter', CounterSchema);
 
 //schema for the url
 var urlSchema = new Schema({
-    original: {
+    original_url: {
       type: String,
       required: true
     },
@@ -36,7 +36,7 @@ var urlSchema = new Schema({
 urlSchema.pre("save", function(next) {
   var doc = this;
   //if no image is provided then use the defaults
-  if (url_valid.isWebUri(doc.original)) {
+  if (url_valid.isWebUri(doc.original_url)) {
     counter.findByIdAndUpdate(
       { _id: 'entityId' },
       { $inc: { seq: 1} },

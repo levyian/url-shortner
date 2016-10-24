@@ -13,21 +13,19 @@ urlFetcherRouter.get('/', function(req, res, next) {
     next(err);
 });
     
-urlFetcherRouter.get('/:url_shortened', function(req, res, next) {
-    next(new Error("Didnt find url"));
-    // urlModel.findOne({'original': req.params.url_shortened}, {'original.$': 1},
-    //     function (err, url) {
-    //         if (err) {
-    //             console.log(err);
-    //             next(err);
-    //         } else {
-    //             console.log(url);
-    //             res.status(200);
-    //             res.send("ok");
-                // res.redirect('https://' + req.hostname+':' + app.get('secPort') + req.url);
-    //         }
-    //     }
-    // );
+urlFetcherRouter.get('/:url_index', function(req, res, next) {
+    urlModel.findOne(
+        { 'short_url': process.env.URL + req.params.url_index },
+        'original_url',
+        function (err, url) {
+            if (err || url === null) {
+                next((err || new Error("The given shortened URL is invalid")));
+            } else {
+                console.log("redirecting to", url.original_url);
+                res.redirect(url.original_url);
+            }
+        }
+    );
 });
     
 module.exports = urlFetcherRouter;

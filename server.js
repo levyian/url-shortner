@@ -20,10 +20,6 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-//routes
-var urlShortner = require('./routes/urlShortnerRouter');
-var urlFetcher = require('./routes/urlFetcherRouter');
-
 //setup public folder
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -34,9 +30,13 @@ app.all('*', function(req, res, next) {
   if (req.method === "GET" && 
     (encodedURL = /(\/new\/http[s]?:)(\/\/.+\..+)/.exec(req.url)) != null) {
       req.url = encodedURL[1] + encodedURL[2].replace(/\//g, "%252F");
-      return next();
   }
+  return next();
 });
+
+//routes
+var urlShortner = require('./routes/urlShortnerRouter');
+var urlFetcher = require('./routes/urlFetcherRouter');
 
 //set routes
 app.use('/new', urlShortner);
