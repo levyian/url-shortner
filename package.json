@@ -1,6 +1,9 @@
 {
   "name": "url-shortener",
   "version": "1.0.0",
+  "engines": {
+    "node": "6.11.1"
+  },
   "description": "Shortens a given url and will go to destination when given a valid shorten url.",
   "main": "server.js",
   "scripts": {
